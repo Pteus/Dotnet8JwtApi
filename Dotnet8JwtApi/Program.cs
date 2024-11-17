@@ -1,4 +1,6 @@
 using Dotnet8JwtApi.Data;
+using Dotnet8JwtApi.Interfaces;
+using Dotnet8JwtApi.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 
