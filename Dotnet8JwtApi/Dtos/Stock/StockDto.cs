@@ -1,3 +1,5 @@
+using Dotnet8JwtApi.Dtos.Comment;
+
 namespace Dotnet8JwtApi.Dtos.Stock;
 
 public class StockDto
@@ -9,4 +11,5 @@ public class StockDto
     public decimal LastDividend { get; set; }
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
+    public List<CommentDto> Comments { get; set; } = [];
 }
