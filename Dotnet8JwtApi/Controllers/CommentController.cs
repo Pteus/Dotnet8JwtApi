@@ -31,17 +31,41 @@ public class CommentController(ICommentRepository commentRepository, IStockRepos
     }
 
     [HttpPost("{stockId:int}")]
-    public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentDto createCommentDto)
+    public async Task<IActionResult> Create([FromRoute] int stockId, [FromBody] CreateCommentRequestDto createCommentRequestDto)
     {
         if (!await stockRepository.ExistsByIdAsync(stockId))
         {
             return BadRequest("Stock Not Found");
         }
         
-        var comment = createCommentDto.ToComment();
+        var comment = createCommentRequestDto.ToComment();
         comment.StockId = stockId;
         await commentRepository.CreateAsync(comment);
         
         return CreatedAtAction(nameof(GetComment), new {id = comment.Id}, comment.ToCommentDto());
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto updateCommentRequestDto)
+    {
+        var comment = await commentRepository.UpdateAsync(id, updateCommentRequestDto);
+        if (comment == null)
+        {
+            return NotFound("Comment Not Found");
+        }
+        
+        return Ok(comment.ToCommentDto());
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete([FromRoute] int id)
+    {
+        var comment = await commentRepository.DeleteAsync(id);
+        if (comment == null)
+        {
+            return NotFound("Comment Not Found");
+        }
+        
+        return NoContent();
     }
 }

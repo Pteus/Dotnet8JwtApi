@@ -17,12 +17,12 @@ public static class CommentMappers
         };
     }
 
-    public static Comment ToComment(this CreateCommentDto createCommentDto)
+    public static Comment ToComment(this CreateCommentRequestDto createCommentRequestDto)
     {
         return new Comment
         {
-            Title = createCommentDto.Title,
-            Content = createCommentDto.Content
+            Title = createCommentRequestDto.Title,
+            Content = createCommentRequestDto.Content
         };
     }
 }
