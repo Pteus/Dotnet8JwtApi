@@ -1,5 +1,6 @@
 using Dotnet8JwtApi.Data;
 using Dotnet8JwtApi.Dtos.Stock;
+using Dotnet8JwtApi.Helpers;
 using Dotnet8JwtApi.Interfaces;
 using Dotnet8JwtApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,11 +9,23 @@ namespace Dotnet8JwtApi.Repository;
 
 public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 {
-    public async Task<List<Stock>> GetAllAsync()
+    public async Task<List<Stock>> GetAllAsync(QueryParamsObject queryParams)
     {
-        return await dbContext.Stocks
+        var stocks = dbContext.Stocks
             .Include(c => c.Comments)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryParams.CompanyName))
+        {
+            stocks = stocks.Where(stock => stock.CompanyName.Contains(queryParams.CompanyName));
+        }
+
+        if (!string.IsNullOrWhiteSpace(queryParams.Symbol))
+        {
+            stocks = stocks.Where(stock => stock.Symbol.Contains(queryParams.Symbol));
+        }
+
+        return await stocks.ToListAsync();
     }
 
     public async Task<Stock?> GetByIdAsync(int id)

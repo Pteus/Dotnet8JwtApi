@@ -1,0 +1,7 @@
+namespace Dotnet8JwtApi.Helpers;
+
+public class QueryParamsObject
+{
+    public string? Symbol { get; set; } = null;
+    public string? CompanyName { get; set; } = null;
+}
