@@ -32,7 +32,10 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
                 stocks = queryParams.IsDescending ? stocks.OrderByDescending(stock => stock.Symbol) : stocks.OrderBy(stock => stock.Symbol);
             }
         }
-        return await stocks.ToListAsync();
+        
+        var skip = (queryParams.PageNumber - 1) * queryParams.PageSize;
+        
+        return await stocks.Skip(skip).Take(queryParams.PageSize).ToListAsync();
     }
 
     public async Task<Stock?> GetByIdAsync(int id)
