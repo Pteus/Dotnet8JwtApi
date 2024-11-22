@@ -1,10 +1,8 @@
-using Dotnet8JwtApi.Data;
 using Dotnet8JwtApi.Dtos.Stock;
 using Dotnet8JwtApi.Helpers;
 using Dotnet8JwtApi.Interfaces;
 using Dotnet8JwtApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Dotnet8JwtApi.Controllers;
 
