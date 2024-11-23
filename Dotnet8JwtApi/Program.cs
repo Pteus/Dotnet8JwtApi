@@ -3,6 +3,7 @@ using Dotnet8JwtApi.Data;
 using Dotnet8JwtApi.Interfaces;
 using Dotnet8JwtApi.Models;
 using Dotnet8JwtApi.Repository;
+using Dotnet8JwtApi.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
